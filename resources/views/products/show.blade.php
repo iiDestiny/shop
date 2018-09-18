@@ -104,6 +104,17 @@
               }
             })
         })
+
+        $('.btn-disfavor').click(function () {
+          axios.delete('{{ route('products.disfavor', ['product' => $product->id]) }}')
+            .then(function () {
+              swal('操作成功', '', 'success')
+                .then(function () {
+                  location.reload();
+                });
+            });
+        });
+
       })
     </script>
 @endsection
