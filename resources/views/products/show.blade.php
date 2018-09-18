@@ -110,10 +110,10 @@
             .then(function () {
               swal('操作成功', '', 'success')
                 .then(function () {
-                  location.reload();
-                });
-            });
-        });
+                  location.reload()
+                })
+            })
+        })
 
         // 加入购物车按钮点击事件
         $('.btn-add-to-cart').click(function () {
@@ -124,31 +124,34 @@
             amount: $('.cart_amount input').val(),
           })
             .then(function () { // 请求成功执行此回调
-              swal('加入购物车成功', '', 'success');
+              swal('加入购物车成功', '', 'success')
+                .then(function () {
+                  location.href = '{{ route('cart.index') }}'
+                })
             }, function (error) { // 请求失败执行此回调
               if (error.response.status === 401) {
 
                 // http 状态码为 401 代表用户未登陆
-                swal('请先登录', '', 'error');
+                swal('请先登录', '', 'error')
 
               } else if (error.response.status === 422) {
 
                 // http 状态码为 422 代表用户输入校验失败
-                var html = '<div>';
+                var html = '<div>'
                 _.each(error.response.data.errors, function (errors) {
                   _.each(errors, function (error) {
-                    html += error+'<br>';
+                    html += error + '<br>'
                   })
-                });
-                html += '</div>';
+                })
+                html += '</div>'
                 swal({content: $(html)[0], icon: 'error'})
               } else {
 
                 // 其他情况应该是系统挂了
-                swal('系统错误', '', 'error');
+                swal('系统错误', '', 'error')
               }
             })
-        });
+        })
 
       })
     </script>
