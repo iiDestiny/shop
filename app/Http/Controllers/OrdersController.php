@@ -26,6 +26,24 @@ class OrdersController extends Controller
         return view('orders.index', ['orders' => $orders]);
     }
 
+    /**
+     * @param Order $order
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function show(Order $order, Request $request)
+    {
+        $this->authorize('own', $order);
+
+        return view('orders.show', ['order' => $order->load(['items.productSku', 'items.product'])]);
+    }
+
+    /**
+     * @param OrderRequest $request
+     * @return mixed
+     * @throws \Throwable
+     */
     public function store(OrderRequest $request)
     {
         $user = $request->user();
