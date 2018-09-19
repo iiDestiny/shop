@@ -109,7 +109,7 @@
                                     <div class="value">{{ $order->extra['refund_disagree_reason'] }}</div>
                                 </div>
                             @endif
-                            <!-- 支付按钮开始 -->
+                        <!-- 支付按钮开始 -->
                             @if(!$order->paid_at && !$order->closed)
                                 <div class="payment-buttons">
                                     <a class="btn btn-primary btn-sm"
