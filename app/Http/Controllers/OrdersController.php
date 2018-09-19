@@ -13,16 +13,29 @@ use Illuminate\Http\Request;
 
 class OrdersController extends Controller
 {
+
+    public function index(Request $request)
+    {
+        $orders = Order::query()
+            // 使用 with 方法预加载，避免N + 1问题
+            ->with(['items.product', 'items.productSku'])
+            ->where('user_id', $request->user()->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate();
+
+        return view('orders.index', ['orders' => $orders]);
+    }
+
     public function store(OrderRequest $request)
     {
-        $user  = $request->user();
+        $user = $request->user();
         // 开启一个数据库事务
         $order = \DB::transaction(function () use ($user, $request) {
             $address = UserAddress::find($request->input('address_id'));
             // 更新此地址的最后使用时间
             $address->update(['last_used_at' => Carbon::now()]);
             // 创建一个订单
-            $order   = new Order([
+            $order = new Order([
                 'address'      => [ // 将地址信息放入订单中
                     'address'       => $address->full_address,
                     'zip'           => $address->zip,
@@ -38,10 +51,10 @@ class OrdersController extends Controller
             $order->save();
 
             $totalAmount = 0;
-            $items       = $request->input('items');
+            $items = $request->input('items');
             // 遍历用户提交的 SKU
             foreach ($items as $data) {
-                $sku  = ProductSku::find($data['sku_id']);
+                $sku = ProductSku::find($data['sku_id']);
                 // 创建一个 OrderItem 并直接与当前订单关联
                 $item = $order->items()->make([
                     'amount' => $data['amount'],
