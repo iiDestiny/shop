@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Events\OrderReviewd;
+use App\Exceptions\CouponCodeUnavailableException;
 use App\Exceptions\InvalidRequestException;
 use App\Http\Requests\ApplyRefundRequest;
 use App\Http\Requests\OrderRequest;
 use App\Http\Requests\SendReviewRequest;
 use App\Jobs\CloseOrder;
+use App\Models\CouponCode;
 use App\Models\Order;
 use App\Models\ProductSku;
 use App\Models\UserAddress;
@@ -54,9 +56,18 @@ class OrdersController extends Controller
     {
         $user = $request->user();
         $address = UserAddress::find($request->input('address_id'));
+        $coupon = null;
 
+        // 如果用户提交了优惠码
+        if ($code = $request->input('coupon_code')) {
+            $coupon = CouponCode::where('code', $code)->first();
+            if (!$coupon) {
+                throw new CouponCodeUnavailableException('优惠券不存在');
+            }
+        }
         // 开启一个数据库事务
-        return $orderService->store($user, $address, $request->input('remark'), $request->input('items'));
+        // 参数中加入 $coupon 变量
+        return $orderService->store($user, $address, $request->input('remark'), $request->input('items'), $coupon);
     }
 
     /**
@@ -163,7 +174,7 @@ class OrdersController extends Controller
         }
 
         // 将用户输入的退款理由放到订单的 extra 字段中
-        $extra                  = $order->extra ?: [];
+        $extra = $order->extra ?: [];
         $extra['refund_reason'] = $request->input('reason');
         // 将订单退款状态改为已申请退款
         $order->update([
