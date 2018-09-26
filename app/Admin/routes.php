@@ -5,11 +5,11 @@ use Illuminate\Routing\Router;
 Admin::registerAuthRoutes();
 
 Route::group([
-    'prefix'        => config('admin.route.prefix'),
-    'namespace'     => config('admin.route.namespace'),
-    'middleware'    => config('admin.route.middleware'),
+    'prefix'     => config('admin.route.prefix'),
+    'namespace'  => config('admin.route.namespace'),
+    'middleware' => config('admin.route.middleware'),
 ], function (Router $router) {
-
+    // 基础
     $router->get('/', 'HomeController@index');
     $router->get('users', 'UsersController@index');
     $router->get('products', 'ProductsController@index');
@@ -27,4 +27,12 @@ Route::group([
     $router->get('coupon_codes/{id}/edit', 'CouponCodesController@edit');
     $router->put('coupon_codes/{id}', 'CouponCodesController@update');
     $router->delete('coupon_codes/{id}', 'CouponCodesController@destroy');
+    // 进阶
+    $router->get('categories', 'CategoriesController@index');
+    $router->get('categories/create', 'CategoriesController@create');
+    $router->get('categories/{id}/edit', 'CategoriesController@edit');
+    $router->post('categories', 'CategoriesController@store');
+    $router->put('categories/{id}', 'CategoriesController@update');
+    $router->delete('categories/{id}', 'CategoriesController@destroy');
+    $router->get('api/categories', 'CategoriesController@apiIndex');
 });
