@@ -19,4 +19,10 @@ class Product extends Model
     {
         return $this->hasMany(ProductSku::class);
     }
+
+    // 所属分类
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }
