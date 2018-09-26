@@ -6,11 +6,12 @@ use App\Exceptions\InvalidRequestException;
 use App\Models\Category;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, CategoryService $categoryService)
     {
         // 创建一个查询构造器
         $builder = Product::query()->where('on_sale', true);
@@ -60,12 +61,12 @@ class ProductsController extends Controller
         $products = $builder->paginate(16);
 
         return view('products.index', [
-            'products' => $products,
-            'filters'  => [
-                'search'   => $search,
-                'order'    => $order
+            'products'     => $products,
+            'filters'      => [
+                'search' => $search,
+                'order'  => $order,
             ],
-            'category' => $category ?? null,
+            'category'     => $category ?? null,
         ]);
     }
 
