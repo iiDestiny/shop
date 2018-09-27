@@ -4,6 +4,27 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\CrowdfundingProduct
+ *
+ * @property int $id
+ * @property int $product_id
+ * @property float $target_amount
+ * @property float $total_amount
+ * @property int $user_count
+ * @property \Illuminate\Support\Carbon $end_at
+ * @property string $status
+ * @property-read mixed $percent
+ * @property-read \App\Models\Product $product
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CrowdfundingProduct whereEndAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CrowdfundingProduct whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CrowdfundingProduct whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CrowdfundingProduct whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CrowdfundingProduct whereTargetAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CrowdfundingProduct whereTotalAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CrowdfundingProduct whereUserCount($value)
+ * @mixin \Eloquent
+ */
 class CrowdfundingProduct extends Model
 {
     // 定义众筹的 3 种状态

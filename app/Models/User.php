@@ -26,6 +26,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserAddress[] $addresses
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CartItem[] $cartItems
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Product[] $favoriteProducts
  */
 class User extends Authenticatable
 {

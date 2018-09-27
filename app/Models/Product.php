@@ -4,6 +4,40 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Product
+ *
+ * @property int $id
+ * @property string $type
+ * @property int|null $category_id
+ * @property string $title
+ * @property string $description
+ * @property string $image
+ * @property bool $on_sale
+ * @property float $rating
+ * @property int $sold_count
+ * @property int $review_count
+ * @property float $price
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Category|null $category
+ * @property-read \App\Models\CrowdfundingProduct $crowdfunding
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductSku[] $skus
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereOnSale($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereRating($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereReviewCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereSoldCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Product extends Model
 {
     const TYPE_NORMAL = 'normal';
