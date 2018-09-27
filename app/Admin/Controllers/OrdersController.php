@@ -9,6 +9,7 @@ use App\Http\Requests\Request;
 use App\Models\CrowdfundingProduct;
 use App\Models\Order;
 use App\Http\Controllers\Controller;
+use App\Services\OrderService;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -219,12 +220,16 @@ class OrdersController extends Controller
     }
 
     /**
+     * 处理退款
+     *
      * @param Order $order
      * @param HandleRefundRequest $request
+     * @param OrderService $orderService
      * @return Order
+     * @throws InternalException
      * @throws InvalidRequestException
      */
-    public function handleRefund(Order $order, HandleRefundRequest $request)
+    public function handleRefund(Order $order, HandleRefundRequest $request, OrderService $orderService)
     {
         // 判断订单状态是否正确
         if ($order->refund_status !== Order::REFUND_STATUS_APPLIED) {
@@ -233,7 +238,7 @@ class OrdersController extends Controller
         // 是否同意退款
         if ($request->input('agree')) {
             // 调用退款逻辑
-            $this->_refundOrder($order);
+            $orderService->refundOrder($order);
         } else {
             // 将拒绝退款理由放到订单的 extra 字段中
             $extra = $order->extra ?: [];
@@ -249,10 +254,12 @@ class OrdersController extends Controller
     }
 
     /**
+     * 已封装到 Service
+     *
      * @param Order $order
      * @throws InternalException
      */
-    protected function _refundOrder(Order $order)
+    /*protected function _refundOrder(Order $order)
     {
         // 判断该订单的支付方式
         switch ($order->payment_method) {
@@ -306,7 +313,7 @@ class OrdersController extends Controller
                 throw new InternalException('未知订单支付方式：' . $order->payment_method);
                 break;
         }
-    }
+    }*/
 
     /**
      * @param Request $request
