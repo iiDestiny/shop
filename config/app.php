@@ -17,6 +17,8 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'ngrok_url' => env('NGROK_URL'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
