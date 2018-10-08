@@ -39,6 +39,8 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @property-read mixed $grouped_properties
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductProperty[] $properties
+ * @property string $long_title
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereLongTitle($value)
  */
 class Product extends Model
 {
