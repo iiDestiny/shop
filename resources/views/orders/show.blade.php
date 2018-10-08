@@ -178,7 +178,9 @@
                                 <td>{{ $count }}期</td>
                                 <td>{{ $rate }}%</td>
                                 <td>
-                                    <button class="btn btn-sm btn-primary btn-select-installment" data-count="{{ $count }}">选择</button>
+                                    <button class="btn btn-sm btn-primary btn-select-installment"
+                                            data-count="{{ $count }}">选择
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
@@ -200,18 +202,18 @@
         // 分期付款按钮点击事件
         $('#btn-installment').click(function () {
           // 展示分期弹框
-          $('#installment-modal').modal();
-        });
+          $('#installment-modal').modal()
+        })
 
         // 选择分期期数按钮点击事件
         $('.btn-select-installment').click(function () {
           // 调用创建分期付款接口
-          axios.post('{{ route('payment.installment', ['order' => $order->id]) }}', { count: $(this).data('count') })
+          axios.post('{{ route('payment.installment', ['order' => $order->id]) }}', {count: $(this).data('count')})
             .then(function (response) {
-              console.log(response.data);
-              // todo 跳转到分期付款页面
+              console.log(response.data)
+              location.href = '/installments/' + response.data.id
             })
-        });
+        })
 
         // 微信支付按钮事件
         $('#btn-wechat').click(function () {
