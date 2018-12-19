@@ -11,6 +11,61 @@
 |
 */
 
+Route::get('/es', function () {
+    $params = [
+        'index' => 'products',
+        'type'  => '_doc',
+        'body'  => [
+            'query' => [
+                'bool' => [
+                    'filter' => [
+                        ['term' => ['on_sale' => true]],
+                    ],
+                    'must'   => [
+                        [
+                            'multi_match' => [
+                                'query'  => '内存条',
+                                'fields' => [
+                                    'title^3',
+                                    'long_title^2',
+                                    'category^2',
+                                    'description',
+                                    'skus_title',
+                                    'skus_description',
+                                    'properties_value',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'aggs'  => [
+                'properties1' => [
+                    'nested' => [
+                        'path' => 'properties',
+                    ],
+                    'aggs'   => [
+                        'properties2' => [
+                            'terms' => [
+                                'field' => 'properties.name',
+                            ],
+                            'aggs' => [
+                                'value3' => [
+                                    'terms' => [
+                                        'field' => 'properties.value'
+                                    ]
+                                ]
+                            ]
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ];
+
+    dd(app('es')->search($params));
+});
+
 Route::redirect('/', '/products')->name('root');
 Route::get('products', 'ProductsController@index')->name('products.index');
 
